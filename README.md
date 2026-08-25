@@ -2,6 +2,8 @@
 
 An intelligent building management MVP that simulates sensor data and provides automated insights.
 
+# Live Demo -https://ai-smart-building-system.onrender.com/
+
 ## Features
 - Real-time simulated energy, temperature, occupancy and humidity monitoring
 - Rule-based anomaly detection
