@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Smart Building System</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>🏢 AI-Powered Smart Building</h1>
+      <p>Intelligent monitoring, anomaly detection & recommendations</p>
+    </div>
+    <button onclick="refreshData()">Refresh Data</button>
+  </header>
+
+  <main>
+    <section class="cards">
+      <div class="card"><span>⚡ Energy Usage</span><strong id="energy">--</strong><small>kWh</small></div>
+      <div class="card"><span>🌡 Temperature</span><strong id="temperature">--</strong><small>°C</small></div>
+      <div class="card"><span>👥 Occupancy</span><strong id="occupancy">--</strong><small>people</small></div>
+      <div class="card"><span>💧 Humidity</span><strong id="humidity">--</strong><small>%</small></div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>🚨 Anomaly Detection</h2>
+        <ul id="alerts"></ul>
+      </div>
+      <div class="panel">
+        <h2>🤖 AI Recommendations</h2>
+        <ul id="recommendations"></ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>System Status</h2>
+      <p id="timestamp">Loading...</p>
+      <div class="status"><span></span> AI Monitoring Active</div>
+    </section>
+  </main>
+
+  <script>
+    function renderList(id, items) {
+      document.getElementById(id).innerHTML =
+        items.map(item => `<li>${item}</li>`).join("");
+    }
+
+    async function refreshData() {
+      const response = await fetch("/api/data");
+      const data = await response.json();
+      document.getElementById("energy").textContent = data.energy;
+      document.getElementById("temperature").textContent = data.temperature;
+      document.getElementById("occupancy").textContent = data.occupancy;
+      document.getElementById("humidity").textContent = data.humidity;
+      document.getElementById("timestamp").textContent = "Last updated: " + data.timestamp;
+      renderList("alerts", data.alerts);
+      renderList("recommendations", data.recommendations);
+    }
+    refreshData();
+    setInterval(refreshData, 5000);
+  </script>
+</body>
+</html>
